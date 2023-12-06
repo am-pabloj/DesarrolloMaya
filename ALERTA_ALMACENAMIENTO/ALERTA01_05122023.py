@@ -8,32 +8,36 @@ def get_disk_info():
     #listas que almacenarán discos, ocupación y discos en peligro
     storage = []
     alert=[]
-    
+    correo_verificacion=""
+      
     #Se extrae la información en cada uno de los discos
     for disk in psutil.disk_partitions():
         usage = psutil.disk_usage(disk.mountpoint)
         storage.append(disk.mountpoint[0])
         storage.append(usage.percent)
         
-    #Bandera 1  
+    #Bandera 1 en la cual verificamos discos y % de ocupación
     print(storage)
     
     #Se verifica ocupación de los discos según límite definido    
     for i in range(len(storage)):
+        correo_verificacion="verificacion"
         if type(storage[i])==float:
+            
             if storage[i]>=50:
                 a=i-1
                 alert.append(storage[a])
                 medidaAlmacenamiento = str(storage[i])
-                
-                #Envío de correo con la información encesaria
+                correo_verificacion="correo"
+                #Envío de correo con la información necesaria
                 ALERTA02_05122023.envio_email(storage[a],medidaAlmacenamiento)
-                registro_log(storage)     
-                
-    #Bandera 2    
+                   
+            #Se imprime en el registro la acción realizada envío de correo/solamente verificación
+            registro_log(correo_verificacion,storage)            
+    #Bandera 2 en la cual se verifica discos con problema 
     print(alert)
     
-def registro_log(estado_actual):
+def registro_log(correo_verificacion,estado_actual):
     #Se abre el archivo en modo de escritura
     archivo = io.open("alertaLog.txt", "a")
 
@@ -44,7 +48,8 @@ def registro_log(estado_actual):
     fecha_y_hora_formateada = fecha_y_hora_actual.strftime("%Y-%m-%d %H:%M:%S")
 
     #Se escribe el texto y la fecha y hora actual en el archivo
-    archivo.write(f"Verificacion terminada en: {fecha_y_hora_formateada}\n")
+    archivo.write(correo_verificacion)
+    archivo.write(f": {fecha_y_hora_formateada}\n")
     
     #Se escribe en el documento de logs el registro de la finalización de la revisión
     for i in range(len(estado_actual)):

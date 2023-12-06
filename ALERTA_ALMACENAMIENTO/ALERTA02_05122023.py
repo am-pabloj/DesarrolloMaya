@@ -4,7 +4,7 @@ from email.mime.text import MIMEText
 def envio_email(unidadAlmacenamiento,medidaAlmacenamiento):
     # Se define los datos del correo electrónico
     remitente = "<costos@mayaprin.com>"
-    destinatario = "<costos@mayaprin.com>"
+    destinatario = "<ampablojose@gmail.com>"
     msg = MIMEText("El disco "+ unidadAlmacenamiento +" se encuentra al "+ medidaAlmacenamiento+"%")
     msg['Subject'] = 'ALERTA DE ALMACENAMIENTO SERVIDOR SAP'
     msg['From'] = remitente
