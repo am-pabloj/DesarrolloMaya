@@ -1,13 +1,13 @@
 import smtplib
 from email.mime.text import MIMEText
 
-def envio_email(unidadAlmacenamiento,medidaAlmacenamiento):
+def envio_email(mensaje):
     # Se define los datos del correo electrónico
     remitente = "<costos@mayaprin.com>"
     destinatario = "<ampablojose@gmail.com>"
-    msg = MIMEText("El disco "+ unidadAlmacenamiento +" se encuentra al "+ medidaAlmacenamiento+"%")
+    msg = MIMEText(mensaje)
     msg['Subject'] = 'ALERTA DE ALMACENAMIENTO SERVIDOR SAP'
-    msg['From'] = remitente
+    msg['From'] = "MONITOREO SAP"
     msg['To'] = destinatario
    
     # Se crea una conexión al servidor SMTP
